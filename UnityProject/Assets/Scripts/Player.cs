@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [Header("2D 元件")]
     public Rigidbody2D r2d;
     public Animator ani;
+    [Header("音效區域")]
+    public AudioSource and;
+    public AudioClip sounDiamond;
     #endregion
 
     private void Move()
@@ -21,6 +24,8 @@ public class Player : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         r2d.AddForce(new Vector2(speed * h*4,0));
         ani.SetBool("跑步開關", h != 0);
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) transform.eulerAngles = new Vector3(0, 180, 0);
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) transform.eulerAngles = new Vector3(0, 0, 0);
     }
     private void Jump()
     {
@@ -28,6 +33,7 @@ public class Player : MonoBehaviour
         {
             isGround = false;
             r2d.AddForce(new Vector2(0, jump));
+            ani.SetTrigger("跳躍開關");
         }
     }
     private void Dead()
